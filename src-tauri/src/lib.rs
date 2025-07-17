@@ -1,5 +1,5 @@
 pub mod db;
-use crate::db::users::{User};
+use crate::db::{users::User, posts::Post, posts};
 use crate::db::users;
 use mongodb::{bson, bson::doc, options::ClientOptions, Client, Collection};
 use std::sync::Arc;
@@ -16,6 +16,15 @@ async fn get_users(state: State<'_, AppState>) -> Result<Vec<User>, String> {
         .database("twitter")
         .collection::<User>("users");
     users::find_all(collection).await
+}
+
+#[tauri::command]
+async  fn get_posts(state: State<'_, AppState>) -> Result<Vec<Post>, String> {
+    let collection = state
+        .db_client
+        .database("twitter")
+        .collection::<mongodb::bson::Document>("posts");
+    posts::find_all(collection).await
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -35,7 +44,7 @@ pub fn run() {
 
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![get_users])
+        .invoke_handler(tauri::generate_handler![get_users, get_posts])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

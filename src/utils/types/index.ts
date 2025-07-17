@@ -1,16 +1,20 @@
-export interface Comment {
+export interface User {
   id: string;
   username: string;
-  text: string;
-  timestamp: string;
-  avatar: string;
+  profilePicture: string;
+}
+
+export interface Comment {
+  id: string;
+  content: string;
+  created_at: string;
+  user: User;
 }
 
 export interface PostData {
   id: string;
   username: string;
-  userAvatar: string;
-  location?: string;
+  profile_picture: string;
   timestamp: string;
   caption: string;
   imageUrl: string;

@@ -1,9 +1,9 @@
+use futures::stream::TryStreamExt;
 use mongodb::{
-    bson::{doc, oid::ObjectId},
+    bson::{doc, oid::ObjectId, DateTime},
     Collection,
 };
 use serde::{Deserialize, Serialize};
-use futures::stream::TryStreamExt;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct User {
@@ -12,6 +12,16 @@ pub struct User {
     pub username: String,
     pub email: String,
     pub bio: String,
+    joined_at: DateTime,
+    profile_picture: String,
+    password: String,
+}
+#[derive(Debug, Serialize, Deserialize)]
+pub struct PublicUser {
+    #[serde(rename = "_id")]
+    pub id: ObjectId,
+    pub username: String,
+    pub profile_picture: String,
 }
 
 pub async fn find_all(collection: Collection<User>) -> Result<Vec<User>, String> {

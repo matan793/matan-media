@@ -72,47 +72,95 @@ const Post: React.FC<PostProps> = ({
   };
 
   return (
-    <Card sx={{ maxWidth: 468, mx: 'auto', mb: 3, border: '1px solid #dbdbdb' }}>
-      <PostHeader
-        username={postData.username}
-        userAvatar={postData.userAvatar}
-        location={postData.location}
-        timestamp={postData.timestamp}
-        isFollowing={postData.isFollowing}
-        onFollow={handleFollow}
-      />
-
-      <CardMedia
-        component="img"
-        image={postData.imageUrl}
-        alt="Post content"
-        sx={{ aspectRatio: '1/1', objectFit: 'cover' }}
-      />
-
-      <PostActions
-        likes={postData.likes}
-        isLiked={postData.isLiked}
-        onLike={handleLike}
-        onComment={handleToggleComments}
-        commentsExpanded={commentsExpanded}
-      />
-
-      <CardContent sx={{ pt: 0, pb: 1 }}>
-        <Typography variant="subtitle2" sx={{ mb: 1 }}>
-          {postData.likes.toLocaleString()} likes
-        </Typography>
-
-        <Typography variant="body2">
-          <Typography component="span" fontWeight="bold" variant="body2">
-            {postData.username}
-          </Typography>{' '}
-          {postData.caption}
-        </Typography>
-      </CardContent>
+    <>
       {isLargeScreen ? (
-        <></>
+        <div style={{ display: 'flex', maxWidth: 900, margin: '0 auto 24px auto', border: '1px solid #dbdbdb', borderRadius: 4, background: '#fff' }}>
+          <Card sx={{ flex: 2, border: 'none', boxShadow: 'none', borderRadius: 0 }}>
+            <PostHeader
+              username={postData.username}
+              userAvatar={postData.userAvatar}
+              location={postData.location}
+              timestamp={postData.timestamp}
+              isFollowing={postData.isFollowing}
+              onFollow={handleFollow}
+            />
+
+            <CardMedia
+              component="img"
+              image={postData.imageUrl}
+              alt="Post content"
+              sx={{ aspectRatio: '1/1', objectFit: 'cover' }}
+            />
+
+            <PostActions
+              likes={postData.likes}
+              isLiked={postData.isLiked}
+              onLike={handleLike}
+              onComment={handleToggleComments}
+              commentsExpanded={commentsExpanded}
+            />
+
+            <CardContent sx={{ pt: 0, pb: 1 }}>
+              <Typography variant="subtitle2" sx={{ mb: 1 }}>
+                {postData.likes.toLocaleString()} likes
+              </Typography>
+
+              <Typography variant="body2">
+                <Typography component="span" fontWeight="bold" variant="body2">
+                  {postData.username}
+                </Typography>{' '}
+                {postData.caption}
+              </Typography>
+            </CardContent>
+          </Card>
+          <Divider orientation="vertical" flexItem sx={{ mx: 0 }} />
+          <div style={{ flex: 1, minWidth: 320, maxWidth: 350, borderLeft: '1px solid #dbdbdb', background: '#fafafa', display: 'flex', flexDirection: 'column' }}>
+            <CommentsSection
+              comments={postData.comments}
+              onAddComment={handleAddComment}
+              isExpanded={true}
+              onClose={handleCloseComments}
+            />
+          </div>
+        </div>
       ) : (
-        <>
+        <Card sx={{ maxWidth: 468, mx: 'auto', mb: 3, border: '1px solid #dbdbdb' }}>
+          <PostHeader
+            username={postData.username}
+            userAvatar={postData.userAvatar}
+            location={postData.location}
+            timestamp={postData.timestamp}
+            isFollowing={postData.isFollowing}
+            onFollow={handleFollow}
+          />
+
+          <CardMedia
+            component="img"
+            image={postData.imageUrl}
+            alt="Post content"
+            sx={{ aspectRatio: '1/1', objectFit: 'cover' }}
+          />
+
+          <PostActions
+            likes={postData.likes}
+            isLiked={postData.isLiked}
+            onLike={handleLike}
+            onComment={handleToggleComments}
+            commentsExpanded={commentsExpanded}
+          />
+
+          <CardContent sx={{ pt: 0, pb: 1 }}>
+            <Typography variant="subtitle2" sx={{ mb: 1 }}>
+              {postData.likes.toLocaleString()} likes
+            </Typography>
+
+            <Typography variant="body2">
+              <Typography component="span" fontWeight="bold" variant="body2">
+                {postData.username}
+              </Typography>{' '}
+              {postData.caption}
+            </Typography>
+          </CardContent>
           <Divider sx={{ mb: 2 }} />
           <CommentsSection
             comments={postData.comments}
@@ -120,12 +168,9 @@ const Post: React.FC<PostProps> = ({
             isExpanded={commentsExpanded}
             onClose={handleCloseComments}
           />
-        </>
+        </Card>
       )}
-
-
-
-    </Card>
+    </>
   );
 };
 export default Post;
