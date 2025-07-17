@@ -53,12 +53,12 @@ const InstagramPostDemo: React.FC = () => {
   //   isLiked: false,
   //   isFollowing: false,
   // };
-  const {posts} = usePosts();
+  const { posts } = usePosts();
   const handleLike = (postId: string) => {
     console.log('Liked post:', postId);
   };
   console.log('Posts:', posts);
-  
+
 
   const handleComment = (postId: string, text: string) => {
     console.log('New comment on post:', postId, 'Comment:', text);
@@ -70,13 +70,15 @@ const InstagramPostDemo: React.FC = () => {
 
   return (
     <Box sx={{ bgcolor: '#fafafa', minHeight: '100vh', py: 2 }}>
-      
-      {posts.length > 0 && <Post
-        post={posts[0]} // Assuming posts is not empty
-        onLike={handleLike}
-        onComment={handleComment}
-        onFollow={handleFollow}
-      />}
+
+      {posts.length > 0 && posts.map((_, index) => (
+        <Post
+          post={posts[index]} // Assuming posts is not empty
+          onLike={handleLike}
+          onComment={handleComment}
+          onFollow={handleFollow}
+        />
+      ))}
     </Box>
   );
 };
