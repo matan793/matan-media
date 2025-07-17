@@ -22,7 +22,6 @@ interface PostActionsProps {
 }
 
 const PostActions: React.FC<PostActionsProps> = ({
-  likes,
   isLiked,
   onLike,
   onComment,

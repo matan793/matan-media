@@ -10,6 +10,7 @@ import { PostData, Comment } from '../../utils/types';
 import PostHeader from './PostHeader';
 import PostActions from './PostActions';
 import CommentsSection from './CommentSection';
+import { useScreenWidth } from '../../context/ScreenWidth';
 
 interface PostProps {
   post: PostData;
@@ -26,6 +27,8 @@ const Post: React.FC<PostProps> = ({
 }) => {
   const [postData, setPostData] = useState<PostData>(post);
   const [commentsExpanded, setCommentsExpanded] = useState(false);
+  const { width } = useScreenWidth();
+  const isLargeScreen = width >= 768;
 
   const handleLike = () => {
     setPostData(prev => ({
@@ -60,7 +63,7 @@ const Post: React.FC<PostProps> = ({
       timestamp: 'now',
       avatar: '/api/placeholder/32/32',
     };
-    
+
     setPostData(prev => ({
       ...prev,
       comments: [...prev.comments, newComment],
@@ -98,7 +101,7 @@ const Post: React.FC<PostProps> = ({
         <Typography variant="subtitle2" sx={{ mb: 1 }}>
           {postData.likes.toLocaleString()} likes
         </Typography>
-        
+
         <Typography variant="body2">
           <Typography component="span" fontWeight="bold" variant="body2">
             {postData.username}
@@ -106,15 +109,22 @@ const Post: React.FC<PostProps> = ({
           {postData.caption}
         </Typography>
       </CardContent>
+      {isLargeScreen ? (
+        <></>
+      ) : (
+        <>
+          <Divider sx={{ mb: 2 }} />
+          <CommentsSection
+            comments={postData.comments}
+            onAddComment={handleAddComment}
+            isExpanded={commentsExpanded}
+            onClose={handleCloseComments}
+          />
+        </>
+      )}
 
-      <Divider sx={{mb: 2}} />
 
-      <CommentsSection
-        comments={postData.comments}
-        onAddComment={handleAddComment}
-        isExpanded={commentsExpanded}
-        onClose={handleCloseComments}
-      />
+
     </Card>
   );
 };

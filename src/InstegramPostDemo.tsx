@@ -1,5 +1,5 @@
 import { PostData } from "./utils/types";
-import React, { useState } from 'react';
+import React from 'react';
 import { Box } from '@mui/material';
 import Post from './components/Post/Post';
 const InstagramPostDemo: React.FC = () => {
