@@ -10,18 +10,18 @@ import {
 interface PostHeaderProps {
   username: string;
   userAvatar: string;
-  location?: string;
+  // location?: string;
   timestamp: string;
-  isFollowing: boolean;
+  // isFollowing: boolean;
   onFollow: () => void;
 }
 
 const PostHeader: React.FC<PostHeaderProps> = ({
   username,
   userAvatar,
-  location,
+  // location,
   timestamp,
-  isFollowing,
+  // isFollowing,
   onFollow,
 }) => {
   return (
@@ -36,7 +36,7 @@ const PostHeader: React.FC<PostHeaderProps> = ({
           <Typography variant="subtitle2" fontWeight="bold">
             {username}
           </Typography>
-          {!isFollowing && (
+          {/* {!isFollowing && (
             <Button
               size="small"
               variant="text"
@@ -46,16 +46,16 @@ const PostHeader: React.FC<PostHeaderProps> = ({
             >
               • Follow
             </Button>
-          )}
+          )} */}
         </Box>
       }
       subheader={
         <Box>
-          {location && (
+          {/* {location && (
             <Typography variant="caption" color="text.secondary">
               {location}
             </Typography>
-          )}
+          )} */}
           <Typography variant="caption" color="text.secondary" display="block">
             {timestamp}
           </Typography>

@@ -1,25 +1,24 @@
 export interface User {
   id: string;
   username: string;
-  profilePicture: string;
+  profile_picture: string;
 }
 
 export interface Comment {
   id: string;
   content: string;
-  created_at: string;
+  created_at: Date;
   user: User;
 }
 
-export interface PostData {
+export interface Post {
   id: string;
-  username: string;
-  profile_picture: string;
-  timestamp: string;
-  caption: string;
-  imageUrl: string;
-  likes: number;
+  user_id: string;
+  content: string;
+  created_at: Date;
+  media: string[];
+  likes_count: number;
   comments: Comment[];
-  isLiked: boolean;
-  isFollowing: boolean;
+  user: User;
+  isLiked: boolean;// temp
 }

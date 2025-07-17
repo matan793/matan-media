@@ -6,7 +6,7 @@ import {
   Typography,
   Divider,
 } from '@mui/material';
-import { PostData, Comment } from '../../utils/types';
+import { Post as PostData, Comment } from '../../utils/types';
 import PostHeader from './PostHeader';
 import PostActions from './PostActions';
 import CommentsSection from './CommentSection';
@@ -34,7 +34,7 @@ const Post: React.FC<PostProps> = ({
     setPostData(prev => ({
       ...prev,
       isLiked: !prev.isLiked,
-      likes: prev.isLiked ? prev.likes - 1 : prev.likes + 1,
+      likes_count: prev.isLiked ? prev.likes_count - 1 : prev.likes_count + 1,
     }));
     onLike?.(post.id);
   };
@@ -48,27 +48,27 @@ const Post: React.FC<PostProps> = ({
   };
 
   const handleFollow = () => {
-    setPostData(prev => ({
-      ...prev,
-      isFollowing: !prev.isFollowing,
-    }));
-    onFollow?.(post.username);
+    // setPostData(prev => ({
+    //   ...prev,
+    //   isFollowing: !prev.isFollowing,
+    // }));
+    // onFollow?.(post.username);
   };
 
   const handleAddComment = (text: string) => {
-    const newComment: Comment = {
-      id: Date.now().toString(),
-      username: 'current_user',
-      text,
-      timestamp: 'now',
-      avatar: '/api/placeholder/32/32',
-    };
+    // const newComment: Comment = {
+    //   id: Date.now().toString(),
+    //   username: 'current_user',
+    //   text,
+    //   timestamp: 'now',
+    //   avatar: '/api/placeholder/32/32',
+    // };
 
-    setPostData(prev => ({
-      ...prev,
-      comments: [...prev.comments, newComment],
-    }));
-    onComment?.(post.id, text);
+    // setPostData(prev => ({
+    //   ...prev,
+    //   comments: [...prev.comments, newComment],
+    // }));
+    // onComment?.(post.id, text);
   };
 
   return (
@@ -77,23 +77,23 @@ const Post: React.FC<PostProps> = ({
         <div style={{ display: 'flex', maxWidth: 900, margin: '0 auto 24px auto', border: '1px solid #dbdbdb', borderRadius: 4, background: '#fff' }}>
           <Card sx={{ flex: 2, border: 'none', boxShadow: 'none', borderRadius: 0 }}>
             <PostHeader
-              username={postData.username}
-              userAvatar={postData.userAvatar}
-              location={postData.location}
-              timestamp={postData.timestamp}
-              isFollowing={postData.isFollowing}
+              username={postData.user.username}
+              userAvatar={postData.user.profile_picture}
+              //location={postData.location}
+              timestamp={postData.created_at.toDateString()}
+              //isFollowing={postData.isFollowing}
               onFollow={handleFollow}
             />
 
             <CardMedia
               component="img"
-              image={postData.imageUrl}
+              image={postData.media[0]}
               alt="Post content"
               sx={{ aspectRatio: '1/1', objectFit: 'cover' }}
             />
 
             <PostActions
-              likes={postData.likes}
+              likes={postData.likes_count}
               isLiked={postData.isLiked}
               onLike={handleLike}
               onComment={handleToggleComments}
@@ -102,14 +102,14 @@ const Post: React.FC<PostProps> = ({
 
             <CardContent sx={{ pt: 0, pb: 1 }}>
               <Typography variant="subtitle2" sx={{ mb: 1 }}>
-                {postData.likes.toLocaleString()} likes
+                {postData.likes_count.toLocaleString()} likes_count
               </Typography>
 
               <Typography variant="body2">
                 <Typography component="span" fontWeight="bold" variant="body2">
-                  {postData.username}
+                  {postData.user.username}
                 </Typography>{' '}
-                {postData.caption}
+                {postData.content}
               </Typography>
             </CardContent>
           </Card>
@@ -126,23 +126,23 @@ const Post: React.FC<PostProps> = ({
       ) : (
         <Card sx={{ maxWidth: 468, mx: 'auto', mb: 3, border: '1px solid #dbdbdb' }}>
           <PostHeader
-            username={postData.username}
-            userAvatar={postData.userAvatar}
-            location={postData.location}
-            timestamp={postData.timestamp}
-            isFollowing={postData.isFollowing}
+            username={postData.user.username}
+            userAvatar={postData.user.profile_picture}
+            // location={postData.location}
+            timestamp={postData.created_at.toDateString()}
+            // isFollowing={postData.isFollowing}
             onFollow={handleFollow}
           />
 
           <CardMedia
             component="img"
-            image={postData.imageUrl}
+            image={postData.media[0]}
             alt="Post content"
             sx={{ aspectRatio: '1/1', objectFit: 'cover' }}
           />
 
           <PostActions
-            likes={postData.likes}
+            likes={postData.likes_count}
             isLiked={postData.isLiked}
             onLike={handleLike}
             onComment={handleToggleComments}
@@ -151,14 +151,14 @@ const Post: React.FC<PostProps> = ({
 
           <CardContent sx={{ pt: 0, pb: 1 }}>
             <Typography variant="subtitle2" sx={{ mb: 1 }}>
-              {postData.likes.toLocaleString()} likes
+              {postData.likes_count.toLocaleString()} likes_count
             </Typography>
 
             <Typography variant="body2">
               <Typography component="span" fontWeight="bold" variant="body2">
-                {postData.username}
+                {postData.user.username}
               </Typography>{' '}
-              {postData.caption}
+              {postData.content}
             </Typography>
           </CardContent>
           <Divider sx={{ mb: 2 }} />

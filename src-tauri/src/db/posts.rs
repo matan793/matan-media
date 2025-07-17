@@ -1,16 +1,27 @@
 use crate::db::users::{PublicUser, User};
-
+// use crate::serializers::bson_datetime_to_string::bson_datetime_to_string;
 use futures::{future::ok, TryStreamExt};
 use mongodb::{
     bson::{doc, oid::ObjectId, DateTime},
     Collection,
 };
 use serde::{Deserialize, Serialize};
+mod serializers {
+    use mongodb::bson::DateTime;
+    use serde::Serializer;
 
+    pub fn bson_datetime_to_string<S>(date: &DateTime, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_str(&date.to_rfc3339_string())
+    }
+}
 #[derive(Serialize, Deserialize)]
 pub struct PostComment {
     pub user_id: ObjectId,
     pub content: String,
+    #[serde(serialize_with = "serializers::bson_datetime_to_string")]
     pub created_at: DateTime,
     pub user: PublicUser,
 }
@@ -22,6 +33,7 @@ pub struct Post {
     pub user_id: ObjectId,
     pub content: String,
     pub media: Vec<String>,
+    #[serde(serialize_with = "serializers::bson_datetime_to_string")]
     pub created_at: DateTime,
     pub likes_count: u32,
     pub comments: Vec<PostComment>,
@@ -114,7 +126,7 @@ pub async fn find_all(
         .map_err(|e| e.to_string())?;
     let mut posts = Vec::new();
     while let Some(doc) = cursor.try_next().await.map_err(|e| e.to_string())? {
-        println!("Document: {:?}", doc);
+        // println!("Document: {:?}", doc);
         let post: Post = mongodb::bson::from_document(doc).map_err(|e| e.to_string())?;
         posts.push(post);
     }

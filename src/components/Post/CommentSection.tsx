@@ -48,12 +48,12 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({
         <Box sx={{ mb: 1 }}>
           <Typography variant="body2">
             <Typography component="span" fontWeight="bold" variant="body2">
-              {comments[0].username}
+              {comments[0].user.username}
             </Typography>{" "}
-            {comments[0].text}
+            {comments[0].content}
           </Typography>
           <Typography variant="caption" color="text.secondary">
-            {comments[0].timestamp}
+            {comments[0].created_at.toLocaleString()}
           </Typography>
         </Box>
       )}
@@ -100,11 +100,11 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({
             <Box key={comment.id} sx={{ mb: 2 }}>
               <Box sx={{ display: "flex", alignItems: "flex-start", gap: 1 }}>
                 <Avatar
-                  src={comment.avatar}
-                  alt={comment.username}
+                  src={comment.user.profile_picture}
+                  alt={comment.user.username}
                   sx={{ width: 24, height: 24 }}
                 >
-                  {comment.username[0].toUpperCase()}
+                  {comment.user.username[0].toUpperCase()}
                 </Avatar>
                 <Box sx={{ flex: 1 }}>
                   <Typography variant="body2">
@@ -113,12 +113,12 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({
                       fontWeight="bold"
                       variant="body2"
                     >
-                      {comment.username}
+                      {comment.user.username}
                     </Typography>{" "}
-                    {comment.text}
+                    {comment.content}
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
-                    {comment.timestamp}
+                    {comment.created_at.toLocaleString()}
                   </Typography>
                 </Box>
               </Box>
