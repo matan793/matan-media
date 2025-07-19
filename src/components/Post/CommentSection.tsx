@@ -42,7 +42,7 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({
   };
 
   return (
-    <Box sx={{ px: 2, pb: 1 }}>
+    <Box sx={{ px: 2, py: 3, display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100%"  }}>
       {/* Always show the first comment */}
       {comments.length > 0 && !isExpanded && (
         <Box sx={{ mb: 1 }}>
@@ -58,7 +58,7 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({
         </Box>
       )}
 
-      <Collapse in={isExpanded}>
+      <Collapse in={isExpanded} >
         <Paper
           elevation={0}
           sx={{
@@ -67,6 +67,7 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({
             overflow: "auto",
             bgcolor: "grey.50",
             borderRadius: 1,
+            flexGrow: 1,
             // p: 1,
             mb: 1,
           }}
