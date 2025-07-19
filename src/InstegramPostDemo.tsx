@@ -24,6 +24,7 @@ const InstagramPostDemo: React.FC = () => {
 
       {posts.length > 0 && posts.map((_, index) => (
         <Post
+        key={posts[index].id}
           post={posts[index]} // Assuming posts is not empty
           onLike={handleLike}
           onComment={handleComment}
