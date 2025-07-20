@@ -3,7 +3,6 @@ use mongodb::{
     bson::{doc, oid::ObjectId, DateTime},
     Collection,
 };
-
 mod serializers {
     use mongodb::bson::DateTime;
     use serde::Serializer;
@@ -36,13 +35,3 @@ pub struct PublicUser {
     pub profile_picture: String,
 }
 
-pub async fn find_all(collection: Collection<User>) -> Result<Vec<User>, String> {
-    let mut cursor = collection.find(doc! {}).await.map_err(|e| e.to_string())?;
-    let mut users = Vec::new();
-
-    while let Some(result) = cursor.try_next().await.map_err(|e| e.to_string())? {
-        users.push(result);
-    }
-
-    Ok(users)
-}

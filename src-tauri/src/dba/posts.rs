@@ -1,4 +1,4 @@
-use crate::db::users::{PublicUser, User};
+use crate::auth::users::PublicUser;
 // use crate::serializers::bson_datetime_to_string::bson_datetime_to_string;
 use futures::{future::ok, TryStreamExt};
 use mongodb::{

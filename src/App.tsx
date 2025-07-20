@@ -2,12 +2,6 @@ import InstegramPostDemo from "./InstegramPostDemo";
 import { invoke } from '@tauri-apps/api/core';
 import { createHashRouter, RouteObject, RouterProvider } from 'react-router-dom';
 function App() {
-  // invoke('get_posts').then((posts) => {
-  //   console.log('Posts:', posts);
-  // }).catch((error) => {
-  //   console.error('Error fetching posts:', error);
-  // });
-
   const routes: RouteObject[] = [
     {
       // index: true,
@@ -22,9 +16,15 @@ function App() {
     }
   ]
   const router = createHashRouter(routes);
+  invoke('login_user', {username: 'matan', email: 'miravv@gmail.com', password: '1234'}).then((response) => {
+    console.log('User registered:', response);
+  }).catch((error) => {
+    console.error('Error registering user:', error);
+  });
   return (
     <main className="container">
-     <RouterProvider router={router} />
+     {/* <RouterProvider router={router} /> */}
+     mirav
     </main>
   );
 }
