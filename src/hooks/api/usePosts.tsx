@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { invoke } from '@tauri-apps/api/core';
 
-import { Post } from "../utils/types"; // Adjust the import path as necessary
+import { Post } from "../../utils/types"; // Adjust the import path as necessary
 export function usePosts() {
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState<boolean>(true);

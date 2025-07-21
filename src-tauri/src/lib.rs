@@ -48,15 +48,18 @@ use tauri::{Manager, State};
 // }
 mod auth;
 mod db;
+mod serializers;
+mod posts;
 pub struct AppState {
     db_client: Arc<Client>,
     database: Arc<Database>,
 
 }
 use crate::auth::{handler::{get_all_users, register_user, login_user}, repository::UserRepository, service::AuthService};
-
+use crate::posts::{handler::get_posts, repository::PostRepository, service::PostService, posts::Post};
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub async fn run() {
+    print!("test");
     // Make sure to await the DB connection
     let db = db::connect_to_db().await.expect("DB failed");
 
@@ -64,9 +67,13 @@ pub async fn run() {
     let user_repo = UserRepository::new(users_collection);
     let auth_service = AuthService::new(user_repo);
 
+        let posts_collection: Collection<Post> = db.collection("posts");
+    let post_repo = PostRepository::new(posts_collection);
+    let post_service = PostService::new(post_repo);
     tauri::Builder::default()
         .manage(auth_service)
-        .invoke_handler(tauri::generate_handler![get_all_users, register_user, login_user])
+        .manage(post_service)
+        .invoke_handler(tauri::generate_handler![get_all_users, register_user, login_user, get_posts])
         .run(tauri::generate_context!())
         .expect("error while running tauri app");
 }

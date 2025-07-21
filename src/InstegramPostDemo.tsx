@@ -2,7 +2,7 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import Post from './components/Post/Post';
-import { usePosts } from "./hooks/usePosts";
+import { usePosts } from "./hooks/api/usePosts";
 const InstagramPostDemo: React.FC = () => {
   const { posts } = usePosts();
   const handleLike = (postId: string) => {

@@ -22,3 +22,8 @@ export interface Post {
   user: User;
   isLiked: boolean;// temp
 }
+
+export interface LoginCredentials {
+  username: string;
+  password: string;
+}

@@ -1,36 +1,110 @@
-
-
-use crate::auth::users::User;
-use mongodb::{Collection, bson::{doc, to_document}};
+use crate::posts::posts::Post;
 use anyhow::Result;
+use mongodb::{
+    bson::{doc, to_document},
+    Collection,
+};
+use futures::stream::TryStreamExt;
 
-pub struct UserRepository {
-    collection: Collection<User>,
+pub struct PostRepository {
+    collection: Collection<Post>,
 }
 
-impl UserRepository {
-    pub fn new(collection: Collection<User>) -> Self {
+impl PostRepository {
+    pub fn new(collection: Collection<Post>) -> Self {
         Self { collection }
     }
+    pub async fn find_all(
+        &self
+    ) -> Result<Vec<Post>, String> {
+        let pipeline: Vec<mongodb::bson::Document> = vec![
+            doc! {
+                "$lookup": {
+                    "from": "users",
+                    "localField": "user_id",
+                    "foreignField": "_id",
+                    "as": "user"
+                }
+            },
+            doc! {
+                "$unwind": {
+                    "path": "$user",
+                }
+            },
+            doc! {
+                "$lookup": {
+                    "from": "users",
+                    "localField": "comments.user_id",
+                    "foreignField": "_id",
+                    "as": "comment_users"
+                }
+            },
+            doc! {
+                "$addFields": {
+                    "comments": {
+                        "$map": {
+                            "input": "$comments",
+                            "as": "comment",
+                            "in": {
+                                "user_id": "$$comment.user_id",
+                                "content": "$$comment.content",
+                                "created_at": "$$comment.created_at",
+                                "user": {
+                                    "$arrayElemAt": [
+                                        {
+                                            "$map": {
+                                                "input": {
+                                                    "$filter": {
+                                                        "input": "$comment_users",
+                                                        "as": "cu",
+                                                        "cond": { "$eq": ["$$cu._id", "$$comment.user_id"] }
+                                                    }
+                                                },
+                                                "as": "cu",
+                                                "in": {
+                                                    "_id": "$$cu._id",
+                                                    "username": "$$cu.username",
+                                                    "profile_picture": "$$cu.profile_picture"
+                                                }
+                                            }
+                                        },
+                                        0
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            doc! {
+            "$project": {
+              "_id": 1,
+              "content": 1,
+              "user_id": 1,
+              "media": 1,
+              "comments": 1,
+              "likes_count": 1,
+              "created_at": 1,
+              "user": {
+                "_id": "$user._id",
+                "username": "$user.username",
+                "profile_picture": "$user.profile_picture",
+              }
 
-    pub async fn find_by_email(&self, email: &str) -> Result<Option<User>> {
-        let user = self.collection.find_one(doc! { "email": email }).await?;
-        Ok(user)
+              }
+              },
+        ];
+        let mut cursor = self.collection
+            .aggregate(pipeline)
+            .await
+            .map_err(|e| e.to_string())?;
+        let mut posts = Vec::new();
+        while let Some(doc) = cursor.try_next().await.map_err(|e| e.to_string())? {
+            // println!("Document: {:?}", doc);
+            let post: Post = mongodb::bson::from_document(doc).map_err(|e| e.to_string())?;
+            posts.push(post);
+        }
+        print!("Posts: {:?}", posts);
+        Ok(posts)
     }
-
-    pub async fn insert_user(&self, user: &User) -> Result<()> {
-        let doc = to_document(user)?;
-        self.collection.insert_one_model(doc).await?;
-        Ok(())
-    }
-    pub async fn find_all(&self) -> Result<Vec<User>, String> {
-    let mut cursor = self.find(doc! {}).await.map_err(|e| e.to_string())?;
-    let mut users = Vec::new();
-
-    while let Some(result) = cursor.try_next().await.map_err(|e| e.to_string())? {
-        users.push(result);
-    }
-
-    Ok(users)
-}
 }
