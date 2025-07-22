@@ -5,11 +5,12 @@ import {
   RouteObject,
   RouterProvider,
 } from "react-router-dom";
+import LoginPage from "./components/Post/LoginPage/LoginPage";
 function App() {
   const routes: RouteObject[] = [
     {
       // index: true,
-      element: <InstegramPostDemo />,
+      element: <LoginPage />,
       path: "/",
     },
     {
@@ -19,6 +20,7 @@ function App() {
     },
   ];
   const router = createHashRouter(routes);
+  // invoke('register_user', { username: 'demo', password: '123456', email: 'd@gmail.com'})
   return (
     <main className="container">
       <RouterProvider router={router} />

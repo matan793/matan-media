@@ -50,6 +50,7 @@ mod auth;
 mod db;
 mod serializers;
 mod posts;
+mod errors;
 pub struct AppState {
     db_client: Arc<Client>,
     database: Arc<Database>,

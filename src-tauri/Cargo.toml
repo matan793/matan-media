@@ -29,4 +29,5 @@ jsonwebtoken = "9.3.1"
 anyhow = "1.0.98"
 argon2 = "0.3"
 tokio = "1.46.1"
+thiserror = "2.0.12"
 

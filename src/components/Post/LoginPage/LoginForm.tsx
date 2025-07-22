@@ -1,6 +1,7 @@
 import { Phone, VisibilityOff, Visibility } from "@mui/icons-material";
-import { Box, Alert, TextField, InputAdornment, IconButton, Button } from "@mui/material";
+import { Box, Alert, TextField, InputAdornment, IconButton, Button, Input } from "@mui/material";
 import { Link } from "react-router-dom";
+import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import { LoginCredentials } from "../../../utils/types";
 import { useLoginForm } from "../../../hooks/useLoginForm";
 
@@ -38,17 +39,17 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, isLoading = false, erro
       <TextField
         fullWidth
         variant="outlined"
-        placeholder="Username, email, or phone number"
-        value={credentials.username}
-        onChange={handleChange('username')}
-        error={!!errors.username}
-        helperText={errors.username}
+        placeholder="email e.g example@gmail.com"
+        value={credentials.email}
+        onChange={handleChange('email')}
+        error={!!errors.email}
+        helperText={errors.email}
         disabled={isLoading}
         sx={{ mb: 2 }}
         InputProps={{
-          startAdornment: credentials.username.includes('@') ? undefined : (
+          startAdornment: credentials.email.includes('@') ? undefined : (
             <InputAdornment position="start">
-              <Phone fontSize="small" color="action" />
+              <AlternateEmailIcon fontSize="small" color="action" />
             </InputAdornment>
           )
         }}
@@ -84,7 +85,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, isLoading = false, erro
         type="submit"
         fullWidth
         variant="contained"
-        disabled={isLoading || !credentials.username || !credentials.password}
+        disabled={isLoading || !credentials.email || !credentials.password}
         sx={{
           py: 1.5,
           mb: 2,
@@ -109,3 +110,4 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, isLoading = false, erro
     </Box>
   );
 };
+export default LoginForm;

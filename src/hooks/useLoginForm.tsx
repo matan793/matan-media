@@ -2,7 +2,7 @@ import { useState } from "react";
 import { LoginCredentials } from "../utils/types";
 export const useLoginForm = () => {
   const [credentials, setCredentials] = useState<LoginCredentials>({
-    username: '',
+    email: '',
     password: ''
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -11,8 +11,8 @@ export const useLoginForm = () => {
   const validateForm = (): boolean => {
     const newErrors: Partial<LoginCredentials> = {};
     
-    if (!credentials.username.trim()) {
-      newErrors.username = 'Username, email, or phone number is required';
+    if (!credentials.email.trim()) {
+      newErrors.email = 'email is required';
     }
     
     if (!credentials.password) {
