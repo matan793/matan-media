@@ -1,7 +1,5 @@
-use futures::stream::TryStreamExt;
 use mongodb::{
     bson::{doc, oid::ObjectId, DateTime},
-    Collection,
 };
 
 use crate::serializers;

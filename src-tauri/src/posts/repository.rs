@@ -1,7 +1,7 @@
 use crate::posts::posts::Post;
 use anyhow::Result;
 use mongodb::{
-    bson::{doc, to_document},
+    bson::{doc},
     Collection,
 };
 use futures::stream::TryStreamExt;

@@ -2,7 +2,7 @@ use crate::auth::users::{PublicUser, User};
 use anyhow::Result;
 use futures::stream::TryStreamExt;
 use mongodb::{
-    bson::{doc, to_bson, to_document},
+    bson::{doc},
     Collection,
 };
 

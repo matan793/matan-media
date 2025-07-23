@@ -1,11 +1,7 @@
 use crate::auth::users::PublicUser;
 // use crate::serializers::bson_datetime_to_string::bson_datetime_to_string;
 use crate::serializers;
-use futures::{future::ok, TryStreamExt};
-use mongodb::{
-    bson::{doc, oid::ObjectId, DateTime},
-    Collection,
-};
+use mongodb::bson::{doc, oid::ObjectId, DateTime};
 use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Debug)]
 pub struct PostComment {
@@ -35,5 +31,3 @@ pub struct Post {
     pub comments: Vec<PostComment>,
     pub user: PublicUser,
 }
-
-

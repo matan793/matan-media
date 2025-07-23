@@ -1,4 +1,7 @@
-use crate::auth::{repository::UserRepository, users::{PublicUser, User}};
+use crate::auth::{
+    repository::UserRepository,
+    users::{PublicUser, User},
+};
 use anyhow::{anyhow, Result};
 use argon2::{
     self,

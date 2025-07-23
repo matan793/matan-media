@@ -1,11 +1,11 @@
 use mongodb::bson::DateTime;
-use serde::{Deserialize, Deserializer, Serialize, Serializer};
+use serde::{Deserialize, Deserializer};
 
 pub fn bson_datetime_to_string<S>(date: &DateTime, serializer: S) -> Result<S::Ok, S::Error>
 where
     S: serde::Serializer,
 {
-    serializer.serialize_str(&date.to_rfc3339_string())
+    serializer.serialize_str(&date.try_to_rfc3339_string().map_err(serde::ser::Error::custom)?)
 }
 pub fn bson_datetime_from_string<'de, D>(deserializer: D) -> Result<DateTime, D::Error>
 where

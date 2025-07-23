@@ -1,6 +1,5 @@
 use tauri::State;
 use crate::auth::users::PublicUser;
-use crate::auth::{service::AuthService, users::User};
 use crate::AppState;
 #[tauri::command]
 pub async fn register_user(
