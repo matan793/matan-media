@@ -1,4 +1,4 @@
-use crate::auth::{repository::UserRepository, users::User};
+use crate::auth::{repository::UserRepository, users::{PublicUser, User}};
 use anyhow::{anyhow, Result};
 use argon2::{
     self,
@@ -84,7 +84,7 @@ impl AuthService {
     // fn verify_password(password: &str, hash: &str) -> Result<bool> {
     //     Ok(argon2::verify_encoded(hash, password.as_bytes())?)
     // }
-    pub async fn get_all_users(&self) -> Result<Vec<User>, String> {
+    pub async fn get_all_users(&self) -> Result<Vec<PublicUser>, String> {
         self.repo.find_all().await
     }
 }

@@ -2,6 +2,7 @@ export interface User {
   id: string;
   username: string;
   profile_picture: string;
+  joined_at: Date;
 }
 
 export interface Comment {

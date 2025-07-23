@@ -1,4 +1,4 @@
-use crate::auth::users::User;
+use crate::auth::users::{PublicUser, User};
 use anyhow::Result;
 use futures::stream::TryStreamExt;
 use mongodb::{
@@ -26,7 +26,7 @@ impl UserRepository {
         self.collection.insert_one(user).await?; // Convert BSON to Document before inserting
         Ok(())
     }
-    pub async fn find_all(&self) -> Result<Vec<User>, String> {
+    pub async fn find_all(&self) -> Result<Vec<PublicUser>, String> {
         let mut cursor = self
             .collection
             .find(doc! {})
@@ -35,10 +35,14 @@ impl UserRepository {
         let mut users = Vec::new();
 
         while let Some(result) = cursor.try_next().await.map_err(|e| e.to_string())? {
-            users.push(result);
+            users.push(PublicUser {
+                id: result.id,
+                username: result.username,
+                profile_picture: result.profile_picture,
+                joined_at: result.joined_at,
+            });
         }
 
         Ok(users)
     }
-    
 }
