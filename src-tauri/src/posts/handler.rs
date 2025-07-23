@@ -1,8 +1,9 @@
 use tauri::State;
+use crate::AppState;
 use crate::posts::{posts::Post, repository::PostRepository, service::PostService};
 #[tauri::command]
 pub async fn get_posts(
-    post_service: State<'_, PostService>
+    app_state: State<'_, AppState>
 ) -> Result<Vec<Post>, String> {
-    post_service.get_all_posts().await
+    app_state.post_service.get_all_posts().await
 }

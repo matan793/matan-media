@@ -15,7 +15,6 @@ const SignUpPrompt: React.FC = () => (
       Don't have an account?{' '}
       <Link
         to="/register"
-        // sx={{ color: '#0095f6', textDecoration: 'none', fontWeight: 600 }}
       >
         Sign up
       </Link>

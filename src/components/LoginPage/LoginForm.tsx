@@ -2,8 +2,8 @@ import { Phone, VisibilityOff, Visibility } from "@mui/icons-material";
 import { Box, Alert, TextField, InputAdornment, IconButton, Button, Input } from "@mui/material";
 import { Link } from "react-router-dom";
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-import { LoginCredentials } from "../../../utils/types";
-import { useLoginForm } from "../../../hooks/useLoginForm";
+import { LoginCredentials } from "../../utils/types";
+import { useLoginForm } from "../../hooks/useLoginForm";
 
 interface LoginFormProps {
   onSubmit: (credentials: LoginCredentials) => Promise<void>;

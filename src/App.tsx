@@ -5,12 +5,12 @@ import {
   RouteObject,
   RouterProvider,
 } from "react-router-dom";
-import LoginPage from "./components/Post/LoginPage/LoginPage";
+import LoginPage from "./components/LoginPage/LoginPage";
 function App() {
   const routes: RouteObject[] = [
     {
       // index: true,
-      element: <LoginPage />,
+      element: <InstegramPostDemo />,
       path: "/",
     },
     {

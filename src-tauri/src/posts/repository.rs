@@ -107,4 +107,13 @@ impl PostRepository {
         print!("Posts: {:?}", posts);
         Ok(posts)
     }
+
+    pub async fn insert(&self, post: &Post) -> Result<(), String> {
+        // let doc = to_document(post).map_err(|e| e.to_string())?;
+        self.collection
+            .insert_one(post)
+            .await
+            .map_err(|e| e.to_string())?;
+        Ok(())
+    }
 }

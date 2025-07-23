@@ -1,6 +1,6 @@
 import { Container, Box, Paper, Typography } from "@mui/material";
 import { useState } from "react";
-import { LoginCredentials, User } from "../../../utils/types";
+import { LoginCredentials, User } from "../../utils/types";
 import SignUpPrompt from "./SignUpPrompt";
 import Logo from "./Logo";
 import LoginForm from "./LoginForm";
@@ -50,14 +50,10 @@ const LoginPage: React.FC = () => {
                     }}
                 >
                     <Logo />
-                    {/* <SocialLogin onFacebookLogin={handleFacebookLogin} isLoading={isLoading} /> */}
                     <LoginForm onSubmit={handleLogin} isLoading={isLoading} error={error} />
                 </Paper>
 
                 <SignUpPrompt />
-                {/* <AppDownload /> */}
-
-
             </Box>
         </Container>
     );

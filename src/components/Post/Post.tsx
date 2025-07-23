@@ -11,6 +11,8 @@ import PostHeader from './PostHeader';
 import PostActions from './PostActions';
 import CommentsSection from './CommentSection';
 import { useScreenWidth } from '../../context/ScreenWidth';
+import MediaCarousel from './MediaCarousel';
+import { ViewCarousel } from '@mui/icons-material';
 
 interface PostProps {
   post: PostData;
@@ -140,6 +142,8 @@ const Post: React.FC<PostProps> = ({
             alt="Post content"
             sx={{ aspectRatio: '1/1', objectFit: 'cover' }}
           />
+          {/* <MediaCarousel media={postData.media} /> */}
+
 
           <PostActions
             likes={postData.likes_count}
