@@ -1,4 +1,4 @@
-pub mod posts;
 pub mod handler;
-pub mod service;
+pub mod posts;
 pub mod repository;
+pub mod service;

@@ -1,10 +1,7 @@
 use crate::auth::users::{PublicUser, User};
 use anyhow::Result;
 use futures::stream::TryStreamExt;
-use mongodb::{
-    bson::{doc},
-    Collection,
-};
+use mongodb::{bson::doc, Collection};
 
 pub struct UserRepository {
     collection: Collection<User>,
@@ -39,7 +36,7 @@ impl UserRepository {
                 id: result.id,
                 username: result.username,
                 profile_picture: result.profile_picture,
-                joined_at: result.joined_at,
+                joined_at: Some(result.joined_at),
             });
         }
 

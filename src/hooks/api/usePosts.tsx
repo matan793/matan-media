@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { invoke } from '@tauri-apps/api/core';
 
-import { Post } from "../../utils/types"; // Adjust the import path as necessary
+import { Post } from "../../utils/types";  
 export function usePosts() {
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -12,11 +12,10 @@ export function usePosts() {
             setLoading(true);
             setError(null);
             try {
-                // Replace 'get_posts' with your actual Tauri command name
                 let result = await invoke<Post[]>("get_posts");
                 result = result.map(post => ({
                     ...post,
-                    created_at: new Date(post.created_at) // Ensure created_at is a Date object
+                    created_at: new Date(post.created_at!)
                 }));
                 console.log(typeof result[0].created_at, result[0].created_at);
                 

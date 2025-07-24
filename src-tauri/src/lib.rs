@@ -1,10 +1,10 @@
 use std::sync::Arc;
 mod auth;
+mod config;
 mod db;
 mod errors;
 mod posts;
 mod serializers;
-mod config;
 
 #[derive(Clone)]
 pub struct AppState {
@@ -17,7 +17,9 @@ use crate::auth::{
     service::AuthService,
 };
 use crate::posts::{
-    handler::get_posts, repository::PostRepository, service::PostService,
+    handler::{create_post, get_posts},
+    repository::PostRepository,
+    service::PostService,
 };
 
 async fn config_app() -> Result<AppState, anyhow::Error> {
@@ -41,12 +43,14 @@ async fn config_app() -> Result<AppState, anyhow::Error> {
 pub async fn run() {
     let app_state = config_app().await.expect("Failed to configure app state");
     tauri::Builder::default()
+        .plugin(tauri_plugin_dialog::init())
         .manage(app_state)
         .invoke_handler(tauri::generate_handler![
             get_all_users,
             register_user,
             login_user,
-            get_posts
+            get_posts,
+            create_post
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri app");

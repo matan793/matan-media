@@ -1,22 +1,24 @@
+import { ObjectId } from "bson";
+
 export interface User {
-  id: string;
+  id: ObjectId;
   username: string;
   profile_picture: string;
-  joined_at: Date;
+  joined_at: Date | null;
 }
 
 export interface Comment {
-  id: string;
+  id: ObjectId;
   content: string;
-  created_at: Date;
+  created_at: Date | null;
   user: User;
 }
 
 export interface Post {
-  id: string;
-  user_id: string;
+  id: ObjectId;
+  user_id: ObjectId;
   content: string;
-  created_at: Date;
+  created_at: string | null;
   media: string[];
   likes_count: number;
   comments: Comment[];

@@ -1,10 +1,7 @@
 use crate::posts::posts::Post;
 use anyhow::Result;
-use mongodb::{
-    bson::{doc},
-    Collection,
-};
 use futures::stream::TryStreamExt;
+use mongodb::{bson::doc, Collection};
 
 pub struct PostRepository {
     collection: Collection<Post>,
@@ -14,9 +11,7 @@ impl PostRepository {
     pub fn new(collection: Collection<Post>) -> Self {
         Self { collection }
     }
-    pub async fn find_all(
-        &self
-    ) -> Result<Vec<Post>, String> {
+    pub async fn find_all(&self) -> Result<Vec<Post>, String> {
         let pipeline: Vec<mongodb::bson::Document> = vec![
             doc! {
                 "$lookup": {
@@ -94,7 +89,8 @@ impl PostRepository {
               }
               },
         ];
-        let mut cursor = self.collection
+        let mut cursor = self
+            .collection
             .aggregate(pipeline)
             .await
             .map_err(|e| e.to_string())?;
@@ -113,7 +109,8 @@ impl PostRepository {
         self.collection
             .insert_one(post)
             .await
-            .map_err(|e| e.to_string())?;
+            .map_err(|e| e.to_string() + "mirav")?;
+       
         Ok(())
     }
 }

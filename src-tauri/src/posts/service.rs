@@ -1,6 +1,7 @@
 use crate::config;
 use crate::posts::{posts::Post, repository::PostRepository};
 use cloudinary::upload::{OptionalParameters, Source, Upload, UploadResult};
+use mongodb::bson::oid::ObjectId;
 use std::collections::BTreeSet;
 pub struct PostService {
     repo: PostRepository,
@@ -22,9 +23,7 @@ impl PostService {
             config::CLOUDINARY_API_SECRET.to_string(),
         );
         for image_path in image_paths {
-            let options = BTreeSet::from([
-                OptionalParameters::Folder("matan-media".to_string()),
-            ]);
+            let options = BTreeSet::from([OptionalParameters::Folder("matan-media".to_string())]);
             let result = upload
                 .image(Source::Path(image_path.into()), &options)
                 .await
@@ -43,7 +42,9 @@ impl PostService {
         }
         let post_with_images = Post {
             media: image_urls.clone(),
+            id: Some(ObjectId::new()),
             ..post
+
         };
         self.repo
             .insert(&post_with_images)

@@ -1,6 +1,4 @@
-use mongodb::{
-    bson::{doc, oid::ObjectId, DateTime},
-};
+use mongodb::bson::{doc, oid::ObjectId, DateTime};
 
 use crate::serializers;
 use serde::{Deserialize, Serialize};
@@ -18,13 +16,12 @@ pub struct User {
 }
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PublicUser {
-    #[serde(rename = "_id")]
     pub id: ObjectId,
     pub username: String,
     pub profile_picture: String,
     #[serde(
-    // deserialize_with = "serializers::date_time_to_string::bson_datetime_from_string",
+    deserialize_with = "serializers::date_time_to_string::bson_datetime_from_string",
     serialize_with = "serializers::date_time_to_string::bson_datetime_to_string"  // Serialize to string when sending back
 )]
-    pub joined_at: DateTime,
+    pub joined_at: Option<DateTime>,
 }

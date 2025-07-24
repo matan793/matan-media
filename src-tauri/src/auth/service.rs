@@ -70,23 +70,6 @@ impl AuthService {
             Err(anyhow!("Invalid credentials"))
         }
     }
-
-    // fn hash_password(password: &str) -> Result<String> {
-    //     // let salt = b"somesalt"; // use a secure random salt in production
-    //     // Ok(argon2::password_hash(password.as_bytes(), salt, &Config::default())?)
-    //    let password = "password123";
-    // let salt = SaltString::generate(&mut OsRng);
-
-    // // Argon2 with default parameters
-    // let argon2 = Argon2::default();
-
-    // // Hash the password
-    // let password_hash = argon2.hash_password(password.as_bytes(), &salt).unwrap().hash;
-    // }
-
-    // fn verify_password(password: &str, hash: &str) -> Result<bool> {
-    //     Ok(argon2::verify_encoded(hash, password.as_bytes())?)
-    // }
     pub async fn get_all_users(&self) -> Result<Vec<PublicUser>, String> {
         self.repo.find_all().await
     }
