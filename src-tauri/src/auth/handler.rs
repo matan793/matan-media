@@ -64,7 +64,3 @@ pub async fn get_all_users(app_state: State<'_, AppState>) -> Result<Vec<PublicU
 }
 
 
-#[tauri::command]
-pub async fn get_user_posts(app_state: State<'_, AppState>) -> Result<Vec<Post>, String>{
-    
-}
