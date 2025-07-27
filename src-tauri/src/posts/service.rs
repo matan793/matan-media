@@ -44,7 +44,6 @@ impl PostService {
             media: image_urls.clone(),
             id: Some(ObjectId::new()),
             ..post
-
         };
         self.repo
             .insert(&post_with_images)

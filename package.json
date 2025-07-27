@@ -19,6 +19,7 @@
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-dialog": "^2.3.1",
     "@tauri-apps/plugin-opener": "^2",
+    "@tauri-apps/plugin-store": "^2.3.0",
     "bson": "^6.10.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

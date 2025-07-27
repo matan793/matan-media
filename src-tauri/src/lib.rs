@@ -5,6 +5,7 @@ mod db;
 mod errors;
 mod posts;
 mod serializers;
+use tauri_plugin_store::StoreBuilder;
 
 #[derive(Clone)]
 pub struct AppState {
@@ -43,6 +44,7 @@ async fn config_app() -> Result<AppState, anyhow::Error> {
 pub async fn run() {
     let app_state = config_app().await.expect("Failed to configure app state");
     tauri::Builder::default()
+        .plugin(tauri_plugin_store::Builder::new().build())
         .plugin(tauri_plugin_dialog::init())
         .manage(app_state)
         .invoke_handler(tauri::generate_handler![

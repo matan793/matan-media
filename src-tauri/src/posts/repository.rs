@@ -110,7 +110,7 @@ impl PostRepository {
             .insert_one(post)
             .await
             .map_err(|e| e.to_string() + "mirav")?;
-       
+
         Ok(())
     }
 }

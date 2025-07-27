@@ -1,5 +1,10 @@
+use std::path::PathBuf;
+
+use crate::auth::jwt::claims::Claims;
+use crate::auth::jwt::jwt;
 use crate::auth::users::PublicUser;
-use crate::AppState;
+use crate::posts::posts::Post;
+use crate::{config, AppState};
 use tauri::State;
 #[tauri::command]
 pub async fn register_user(
@@ -22,6 +27,7 @@ pub async fn register_user(
 
 #[tauri::command]
 pub async fn login_user(
+    app: tauri::AppHandle,
     app_state: State<'_, AppState>,
     email: String,
     password: String,
@@ -31,7 +37,19 @@ pub async fn login_user(
         .login(email, password)
         .await
         .map_err(|e| e.to_string())?;
-    Ok(user.username) // or token/session ID
+
+    let claims = Claims {
+        sub: user.id.to_string(),
+        exp: config::JWT_EXPIRATION,
+    };
+
+    let token = jwt::createToken(claims)?;
+
+    let path = PathBuf::from("settings.json");
+    let  store = tauri_plugin_store::StoreBuilder::new(&app, path).build().unwrap();
+    store.set("auth-token", token.clone());
+
+    Ok(token)  
 }
 
 #[tauri::command]
@@ -43,4 +61,10 @@ pub async fn get_all_users(app_state: State<'_, AppState>) -> Result<Vec<PublicU
         .map_err(|e| e.to_string())?;
     // Ok(users.into_iter().map(|user| user.username).collect())
     Ok(users)
+}
+
+
+#[tauri::command]
+pub async fn get_user_posts(app_state: State<'_, AppState>) -> Result<Vec<Post>, String>{
+    
 }

@@ -32,4 +32,5 @@ tokio = "1.46.1"
 thiserror = "2.0.12"
 cloudinary = "0.8.1"
 tauri-plugin-dialog = "2"
+tauri-plugin-store = "2"
 

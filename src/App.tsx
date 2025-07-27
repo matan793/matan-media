@@ -13,7 +13,7 @@ function App() {
   const routes: RouteObject[] = [
     {
       // index: true,
-      element: <InstegramPostDemo />,
+      element: <LoginPage />,
       path: "/",
     },
     {
@@ -61,10 +61,10 @@ function App() {
       console.error("Error creating post:", e);
     }
   }
-  handleCreatePost();
+  // handleCreatePost();
   return (
     <main className="container">
-      {/* <RouterProvider router={router} /> */}
+      <RouterProvider router={router} />
     </main>
   );
 }

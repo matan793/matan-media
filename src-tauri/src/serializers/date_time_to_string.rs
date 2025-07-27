@@ -19,11 +19,9 @@ where
 {
     let s: Option<String> = Option::deserialize(deserializer)?; // Deserialize as Option<String>
     match s {
-        Some(date_str) => {
-            DateTime::parse_rfc3339_str(&date_str)
-                .map(Some)
-                .map_err(serde::de::Error::custom)
-        }
+        Some(date_str) => DateTime::parse_rfc3339_str(&date_str)
+            .map(Some)
+            .map_err(serde::de::Error::custom),
         None => Ok(None),
     }
 }
