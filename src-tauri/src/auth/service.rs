@@ -1,3 +1,5 @@
+use std::str::FromStr;
+
 use crate::auth::{
     repository::UserRepository,
     users::{PublicUser, User},
@@ -72,5 +74,13 @@ impl AuthService {
     }
     pub async fn get_all_users(&self) -> Result<Vec<PublicUser>, String> {
         self.repo.find_all().await
+    }
+
+    pub async fn get_user_by_id(&self, id: String) -> Result<PublicUser, String> {
+        let oid = match ObjectId::from_str(&id){
+            Ok(id) => id,
+            Err(e) => return Err("error parsing object id from string".to_string())
+        };
+        self.repo.get_user_by_id(oid).await
     }
 }

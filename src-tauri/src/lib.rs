@@ -13,7 +13,7 @@ pub struct AppState {
     pub post_service: Arc<posts::service::PostService>,
 }
 use crate::auth::{
-    handler::{get_all_users, login_user, register_user},
+    handler::{get_all_users, login_user, register_user, get_current_user},
     repository::UserRepository,
     service::AuthService,
 };
@@ -52,7 +52,8 @@ pub async fn run() {
             register_user,
             login_user,
             get_posts,
-            create_post
+            create_post,
+            get_current_user
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri app");

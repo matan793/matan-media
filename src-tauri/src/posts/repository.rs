@@ -1,7 +1,10 @@
 use crate::posts::posts::Post;
 use anyhow::Result;
 use futures::stream::TryStreamExt;
-use mongodb::{bson::doc, Collection};
+use mongodb::{
+    bson::{self, bson, doc},
+    Collection,
+};
 
 pub struct PostRepository {
     collection: Collection<Post>,
@@ -72,35 +75,39 @@ impl PostRepository {
                 }
             },
             doc! {
-            "$project": {
-              "_id": 1,
-              "content": 1,
-              "user_id": 1,
-              "media": 1,
-              "comments": 1,
-              "likes_count": 1,
-              "created_at": 1,
-              "user": {
-                "_id": "$user._id",
-                "username": "$user.username",
-                "profile_picture": "$user.profile_picture",
-              }
+                        "$project": {
+                          "_id": 1,
+                          "content": 1,
+                          "user_id": 1,
+                          "media": 1,
+                          "comments": 1,
+                          "likes_count": 1,
+                          "created_at": 1,
+                  "user": {
+              "_id": "$user._id",
+              "username": "$user.username",
+              "profile_picture": "$user.profile_picture",
+              "joined_at": "$user.joined_at"
+            }
 
-              }
-              },
+                          }
+                          },
         ];
         let mut cursor = self
             .collection
             .aggregate(pipeline)
             .await
             .map_err(|e| e.to_string())?;
+        // print!("{:?}", cursor);
         let mut posts = Vec::new();
         while let Some(doc) = cursor.try_next().await.map_err(|e| e.to_string())? {
-            // println!("Document: {:?}", doc);
+            println!("RAW DOC:\n{}", bson::to_bson(&doc).unwrap());
+            // Or, if you want even more detail:
+            println!("RAW DOC (detailed):\n{:#?}", doc);
             let post: Post = mongodb::bson::from_document(doc).map_err(|e| e.to_string())?;
             posts.push(post);
         }
-        print!("Posts: {:?}", posts);
+        print!("Posts: {:?}", posts.len());
         Ok(posts)
     }
 

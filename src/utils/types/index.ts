@@ -15,7 +15,7 @@ export interface Comment {
 }
 
 export interface Post {
-  id: ObjectId;
+  _id: ObjectId;
   user_id: ObjectId;
   content: string;
   created_at: string | null;

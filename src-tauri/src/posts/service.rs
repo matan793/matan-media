@@ -2,6 +2,7 @@ use crate::config;
 use crate::posts::{posts::Post, repository::PostRepository};
 use cloudinary::upload::{OptionalParameters, Source, Upload, UploadResult};
 use mongodb::bson::oid::ObjectId;
+use mongodb::bson::DateTime;
 use std::collections::BTreeSet;
 pub struct PostService {
     repo: PostRepository,
@@ -43,6 +44,8 @@ impl PostService {
         let post_with_images = Post {
             media: image_urls.clone(),
             id: Some(ObjectId::new()),
+            created_at: Some(DateTime::now()),
+            user: None,
             ..post
         };
         self.repo

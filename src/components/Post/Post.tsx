@@ -38,7 +38,7 @@ const Post: React.FC<PostProps> = ({
       isLiked: !prev.isLiked,
       likes_count: prev.isLiked ? prev.likes_count - 1 : prev.likes_count + 1,
     }));
-    onLike?.(post.id);
+    onLike?.(post._id.toString());
   };
 
   const handleToggleComments = () => {
@@ -82,7 +82,7 @@ const Post: React.FC<PostProps> = ({
               username={postData.user.username}
               userAvatar={postData.user.profile_picture}
               //location={postData.location}
-              timestamp={postData.created_at.toDateString()}
+              timestamp={postData.created_at!}
               //isFollowing={postData.isFollowing}
               onFollow={handleFollow}
             />
@@ -131,7 +131,7 @@ const Post: React.FC<PostProps> = ({
             username={postData.user.username}
             userAvatar={postData.user.profile_picture}
             // location={postData.location}
-            timestamp={postData.created_at.toDateString()}
+            timestamp={postData.created_at!}
             // isFollowing={postData.isFollowing}
             onFollow={handleFollow}
           />

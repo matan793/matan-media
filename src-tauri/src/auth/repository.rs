@@ -1,7 +1,10 @@
 use crate::auth::users::{PublicUser, User};
 use anyhow::Result;
 use futures::stream::TryStreamExt;
-use mongodb::{bson::doc, Collection};
+use mongodb::{
+    bson::{doc, oid::ObjectId},
+    Collection,
+};
 
 pub struct UserRepository {
     collection: Collection<User>,
@@ -41,5 +44,24 @@ impl UserRepository {
         }
 
         Ok(users)
+    }
+    pub async fn get_user_by_id(&self, id: ObjectId) -> Result<PublicUser, String> {
+        let user = self
+            .collection
+            .find_one(doc! {"_id": id})
+            .await
+            .map_err(|e| e.to_string())?;
+
+        let user = match user {
+            Some(user) => PublicUser {
+                id: user.id,
+                joined_at: Some(user.joined_at),
+                profile_picture: user.profile_picture,
+                username: user.username,
+            },
+            _ => return Err("user not found".to_string()),
+        };
+
+        Ok(user)
     }
 }

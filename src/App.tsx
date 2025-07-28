@@ -13,13 +13,13 @@ function App() {
   const routes: RouteObject[] = [
     {
       // index: true,
-      element: <LoginPage />,
+      element: <InstegramPostDemo />,
       path: "/",
     },
     {
-      index: true,
-      path: "/m",
-      element: <h1>mirav</h1>,
+      // index: true,
+      path: "/login",
+      element: <LoginPage />,
     },
   ];
   const router = createHashRouter(routes);

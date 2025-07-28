@@ -16,6 +16,7 @@ pub struct User {
 }
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PublicUser {
+    #[serde(rename = "_id")]
     pub id: ObjectId,
     pub username: String,
     pub profile_picture: String,

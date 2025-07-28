@@ -15,9 +15,9 @@ export function usePosts() {
                 let result = await invoke<Post[]>("get_posts");
                 result = result.map(post => ({
                     ...post,
-                    created_at: new Date(post.created_at!)
+                    created_at: post.created_at
                 }));
-                console.log(typeof result[0].created_at, result[0].created_at);
+                console.log(result);
                 
                 
                 setPosts(result);

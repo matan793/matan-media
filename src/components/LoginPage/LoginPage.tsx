@@ -5,10 +5,12 @@ import SignUpPrompt from "./SignUpPrompt";
 import Logo from "./Logo";
 import LoginForm from "./LoginForm";
 import { invoke } from "@tauri-apps/api/core";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string>('');
+    const navigate = useNavigate();
 
     const handleLogin = async (credentials: LoginCredentials) => {
         setIsLoading(true);
@@ -19,6 +21,7 @@ const LoginPage: React.FC = () => {
             const username = await invoke<string>('login_user', { ...credentials })
 
             console.log('Login successful!', username);
+            navigate('/');
         } catch (err) {
             // setError(err instanceof Error ? err.message : 'Login failed');
             setError(err as string);

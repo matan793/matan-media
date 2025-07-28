@@ -14,10 +14,12 @@ pub struct Post {
         deserialize_with = "serializers::date_time_to_string::bson_datetime_from_string",
         serialize_with = "serializers::date_time_to_string::bson_datetime_to_string"
     )]
-    pub created_at: Option<DateTime>, // זה יהיה BSON DateTime
-    pub likes_count: u32,
+    pub created_at: Option<DateTime>,
+    pub likes_count: u64,
     pub comments: Vec<PostComment>,
-    pub user: PublicUser,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub user: Option<PublicUser>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -30,6 +32,8 @@ pub struct PostComment {
         deserialize_with = "serializers::date_time_to_string::bson_datetime_from_string",
         serialize_with = "serializers::date_time_to_string::bson_datetime_to_string"
     )]
-    pub created_at: Option<DateTime>, // זה יהיה BSON DateTime
-    pub user: PublicUser,
+    pub created_at: Option<DateTime>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub user: Option<PublicUser>,
 }
